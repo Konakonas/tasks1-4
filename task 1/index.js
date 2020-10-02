@@ -16,7 +16,7 @@ function getData(data) {
                 let newObj = {
                     filename: fileName[key]['filename'],
                     language: fileName[key]['language'],
-                    raw_url: fileName[key]['raw_url']
+                    raw_url: fileName[key]['url']
                 };
                 currentData.push(newObj);
             }
@@ -25,7 +25,7 @@ function getData(data) {
     for (let key in currentData) {
         allData += '<tr><td>' + currentData[key].filename + '</td>'
             + '<td>' + currentData[key].language + '</td>' +
-            '<td><a href="' + currentData[key].raw_url + '">' + "url" + '</a></td></tr>';
+            '<td><a href="' + currentData[key].url + '">' + "url" + '</a></td></tr>';
     }
     $('#data').append(allData);
 }
