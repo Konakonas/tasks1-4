@@ -1,25 +1,19 @@
-let gitXml = new XMLHttpRequest();
-gitXml.open('GET', 'https://api.github.com/gists/public', false);
-gitXml.send();
-if (gitXml.status === 200) {
-    let gitData = (gitXml.responseText);
-    gitData = JSON.parse(gitData.toLowerCase());
-    getData(gitData);
+async function data() {
+    let response = await fetch('https://api.github.com/gists/public');
+    if (response.ok) {
+        let json = await response.json();
+        getData(json);
+    } else {
+        alert("Ошибка HTTP: " + response.status);
+    }
 }
 
 function getData(data) {
     let allData = '';
     let currentData = [];
-    data.forEach(function (key) {
-            let fileName = key.files;
-            for (key in fileName) {
-                let newObj = {
-                    filename: fileName[key]['filename'],
-                    language: fileName[key]['language'],
-                    raw_url: fileName[key]['url']
-                };
-                currentData.push(newObj);
-            }
+    data.forEach(key =>  {
+            let files = Object.values(key.files);
+            currentData.push(...files);
         }
     )
     for (let key in currentData) {
@@ -29,3 +23,4 @@ function getData(data) {
     }
     $('#data').append(allData);
 }
+data();
